@@ -8,30 +8,31 @@ cart.forEach( (cartItem) => {
     
     const productId = cartItem.productId;
 
-    let matchingProdut;
+    let matchingProduct;
     
     products.forEach( (product) => {
         if(product.id === productId){
-            matchingProdut = product;
+            matchingProduct = product;
         }
     });
 
     cartSummaryHTML += `
-        <div class="cart-item-container">
+        <div class="cart-item-container 
+        js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
 
             <div class="cart-item-details-grid">
               <img class="product-image"
-                src="${matchingProdut.image}">
+                src="${matchingProduct.image}">
 
               <div class="cart-item-details">
                 <div class="product-name">
-                  ${matchingProdut.name}
+                  ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${formatCurrency(matchingProdut.priceCents)}
+                  $${formatCurrency(matchingProduct.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -41,7 +42,7 @@ cart.forEach( (cartItem) => {
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary js-delete-link"
-                  data-product-id="${matchingProdut.id}">
+                  data-product-id="${matchingProduct.id}">
                     Delete
                   </span>
                 </div>
@@ -54,7 +55,7 @@ cart.forEach( (cartItem) => {
                 <div class="delivery-option">
                   <input type="radio" checked
                     class="delivery-option-input"
-                    name="delivery-option-${matchingProdut.id}">
+                    name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Tuesday, June 21
@@ -67,7 +68,7 @@ cart.forEach( (cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${matchingProdut.id}">
+                    name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Wednesday, June 15
@@ -80,7 +81,7 @@ cart.forEach( (cartItem) => {
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-${matchingProdut.id}">
+                    name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Monday, June 13
@@ -104,7 +105,11 @@ document.querySelectorAll('.js-delete-link')
     link.addEventListener('click', ()=>{
         const productId = link.dataset.productId;
         removeFromCart(productId);
-        console.log(cart);
+        
+
+        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+        container.remove();
     });
 });
 
